@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Internship Opportunities</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f9fafb;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .apply-btn {
+      padding: 12px 24px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .modal-content a {
+      color: #e1306c;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .modal-content a:hover {
+      text-decoration: underline;
+    }
+
+    .followed-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .cancel-btn {
+      margin-top: 10px;
+      background: none;
+      border: none;
+      color: #555;
+      cursor: pointer;
+    }
+
+    #continueMessage {
+      display: none;
+      margin-top: 20px;
+      color: green;
+      font-weight: bold;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .button {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .form-container {
+      margin-top: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .success {
+      color: green;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Free Internship Opportunities</h1>
+  <div class="grid" id="internshipList"></div>
+
+  <div id="formSection" class="form-container" style="display: none;">
+    <h2 id="formTitle"></h2>
+    <form id="applicationForm">
+      <input type="text" name="name" placeholder="Your Full Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="cover" placeholder="Why should we choose you?" required></textarea>
+     
+       <!-- Apply Button -->
+  <button class="SUBMIT" onclick="showPopup()">Apply</button>
+
+  <!-- Modal -->
+  <div id="followModal" class="modal">
+    <div class="modal-content">
+      <h3>Wait! Follow me first 😉</h3>
+      <p>Follow me on Instagram to continue:</p>
+      <a href="http://tiny.cc/instagramveh" target="_blank">@CONTECT ME ON INSTA</a>
+
+  
+      <button class="cancel-btn" onclick="cancelPopup()">Cancel</button>
+      
+      <p id="continueMessage">✅ You may now continue!</p>
+    </div>
+  </div>
+    </form>
+    <p id="successMessage" class="success" style="display:none;">Application Submitted Successfully!</p>
+  </div>
+  <script>
+    function showPopup() {
+      document.getElementById("followModal").style.display = "block";
+    }
+
+    function continueAfterFollow() {
+      // You can redirect here or unlock form
+      document.getElementById("continueMessage").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("followModal").style.display = "none";
+        alert("Thanks for following! Continuing...");
+        // Redirect or unlock feature here
+      }, 1500);
+    }
+
+    function cancelPopup() {
+      alert("You need to follow to continue!");
+    }
+
+    // Close popup if clicked outside
+    window.onclick = function(event) {
+      const modal = document.getElementById("followModal");
+      if (event.target == modal) {
+        alert("You need to follow to continue!");
+      }
+    }
+  </script>
+
+  <script>
+    const internships = [
+      {
+        id: 1,
+        title: "Frontend Developer Intern",
+        company: "TechNova",
+        description: "Work on React-based projects and learn from experienced mentors."
+      },
+      {
+        id: 2,
+        title: "Marketing Intern",
+        company: "BrandVerse",
+        description: "Get hands-on experience in digital marketing and social media campaigns."
+      },
+      {
+        id: 3,
+        title: "Data Analyst Intern",
+        company: "DataScape",
+        description: "Assist in data cleaning, visualization, and reporting tasks."
+      }
+    ];
+
+    const internshipList = document.getElementById("internshipList");
+    const formSection = document.getElementById("formSection");
+    const formTitle = document.getElementById("formTitle");
+    const applicationForm = document.getElementById("applicationForm");
+    const successMessage = document.getElementById("successMessage");
+    let selectedInternship = null;
+
+    internships.forEach(job => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${job.title}</h3>
+        <p><strong>${job.company}</strong></p>
+        <p>${job.description}</p>
+        <button class="button" onclick="apply(${job.id})">Apply</button>
+      `;
+      internshipList.appendChild(card);
+    });
+
+    function apply(id) {
+      selectedInternship = internships.find(job => job.id === id);
+      formTitle.textContent = `Apply for ${selectedInternship.title} at ${selectedInternship.company}`;
+      formSection.style.display = "block";
+      successMessage.style.display = "none";
+      applicationForm.reset();
+    }
+
+    applicationForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(applicationForm);
+      const name = formData.get("name");
+      const email = formData.get("email");
+      const cover = formData.get("cover");
+
+      console.log("Application Submitted:", {
+        internship: selectedInternship,
+        name,
+        email,
+        cover
+      });
+
+      successMessage.style.display = "block";
+    });
+  </script>
+</body>
+</html>
